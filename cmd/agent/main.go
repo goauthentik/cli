@@ -3,12 +3,12 @@ package main
 import (
 	log "github.com/sirupsen/logrus"
 	"goauthentik.io/cli/pkg/agent"
-	"goauthentik.io/cli/pkg/agent/logs"
+	systemlog "goauthentik.io/cli/pkg/system_log"
 )
 
 func main() {
 	log.SetLevel(log.DebugLevel)
-	err := logs.Setup()
+	err := systemlog.Setup()
 	if err != nil {
 		log.WithError(err).Warning("failed to setup logs")
 	}
