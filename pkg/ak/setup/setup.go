@@ -1,6 +1,9 @@
 package setup
 
 import (
+	"fmt"
+
+	"github.com/cli/browser"
 	log "github.com/sirupsen/logrus"
 
 	"goauthentik.io/cli/pkg/ak"
@@ -30,6 +33,14 @@ func Setup(opts Options) {
 		},
 		ClientID: opts.ClientID,
 		Scopes:   []string{"openid", "profile", "email", "offline_access"},
+		BrowseURL: func(s string) error {
+			err := browser.OpenURL(s)
+			if err != nil {
+				log.WithError(err).Warning("failed to open browser, falling back to CLI")
+				fmt.Printf("\n\tOpen the following URL in your browser: %s\n\n", s)
+			}
+			return nil
+		},
 	}
 
 	accessToken, err := flow.DetectFlow()
@@ -48,4 +59,5 @@ func Setup(opts Options) {
 	if err != nil {
 		log.WithError(err).Warning("failed to save config")
 	}
+	fmt.Printf("Successfully configured authentik for profile %s!\n", opts.ProfileName)
 }
