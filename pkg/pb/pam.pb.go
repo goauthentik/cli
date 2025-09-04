@@ -21,28 +21,28 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type PAMAuthentication struct {
+type TokenAuthRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Token         string                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
-	LocalSocket   string                 `protobuf:"bytes,2,opt,name=local_socket,json=localSocket,proto3" json:"local_socket,omitempty"`
+	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	Token         string                 `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *PAMAuthentication) Reset() {
-	*x = PAMAuthentication{}
+func (x *TokenAuthRequest) Reset() {
+	*x = TokenAuthRequest{}
 	mi := &file_pam_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *PAMAuthentication) String() string {
+func (x *TokenAuthRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*PAMAuthentication) ProtoMessage() {}
+func (*TokenAuthRequest) ProtoMessage() {}
 
-func (x *PAMAuthentication) ProtoReflect() protoreflect.Message {
+func (x *TokenAuthRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_pam_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -54,21 +54,185 @@ func (x *PAMAuthentication) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PAMAuthentication.ProtoReflect.Descriptor instead.
-func (*PAMAuthentication) Descriptor() ([]byte, []int) {
+// Deprecated: Use TokenAuthRequest.ProtoReflect.Descriptor instead.
+func (*TokenAuthRequest) Descriptor() ([]byte, []int) {
 	return file_pam_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *PAMAuthentication) GetToken() string {
+func (x *TokenAuthRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *TokenAuthRequest) GetToken() string {
 	if x != nil {
 		return x.Token
 	}
 	return ""
 }
 
-func (x *PAMAuthentication) GetLocalSocket() string {
+type TokenAuthResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Successful    bool                   `protobuf:"varint,1,opt,name=successful,proto3" json:"successful,omitempty"`
+	Token         *Token                 `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TokenAuthResponse) Reset() {
+	*x = TokenAuthResponse{}
+	mi := &file_pam_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TokenAuthResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TokenAuthResponse) ProtoMessage() {}
+
+func (x *TokenAuthResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_pam_proto_msgTypes[1]
 	if x != nil {
-		return x.LocalSocket
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TokenAuthResponse.ProtoReflect.Descriptor instead.
+func (*TokenAuthResponse) Descriptor() ([]byte, []int) {
+	return file_pam_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *TokenAuthResponse) GetSuccessful() bool {
+	if x != nil {
+		return x.Successful
+	}
+	return false
+}
+
+func (x *TokenAuthResponse) GetToken() *Token {
+	if x != nil {
+		return x.Token
+	}
+	return nil
+}
+
+type InteractiveResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Init          bool                   `protobuf:"varint,1,opt,name=init,proto3" json:"init,omitempty"`
+	Values        []string               `protobuf:"bytes,2,rep,name=values,proto3" json:"values,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *InteractiveResponse) Reset() {
+	*x = InteractiveResponse{}
+	mi := &file_pam_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InteractiveResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InteractiveResponse) ProtoMessage() {}
+
+func (x *InteractiveResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_pam_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InteractiveResponse.ProtoReflect.Descriptor instead.
+func (*InteractiveResponse) Descriptor() ([]byte, []int) {
+	return file_pam_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *InteractiveResponse) GetInit() bool {
+	if x != nil {
+		return x.Init
+	}
+	return false
+}
+
+func (x *InteractiveResponse) GetValues() []string {
+	if x != nil {
+		return x.Values
+	}
+	return nil
+}
+
+type InteractiveChallenge struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Finished      bool                   `protobuf:"varint,1,opt,name=finished,proto3" json:"finished,omitempty"`
+	Component     string                 `protobuf:"bytes,2,opt,name=component,proto3" json:"component,omitempty"`
+	Prompt        string                 `protobuf:"bytes,3,opt,name=prompt,proto3" json:"prompt,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *InteractiveChallenge) Reset() {
+	*x = InteractiveChallenge{}
+	mi := &file_pam_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InteractiveChallenge) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InteractiveChallenge) ProtoMessage() {}
+
+func (x *InteractiveChallenge) ProtoReflect() protoreflect.Message {
+	mi := &file_pam_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InteractiveChallenge.ProtoReflect.Descriptor instead.
+func (*InteractiveChallenge) Descriptor() ([]byte, []int) {
+	return file_pam_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *InteractiveChallenge) GetFinished() bool {
+	if x != nil {
+		return x.Finished
+	}
+	return false
+}
+
+func (x *InteractiveChallenge) GetComponent() string {
+	if x != nil {
+		return x.Component
+	}
+	return ""
+}
+
+func (x *InteractiveChallenge) GetPrompt() string {
+	if x != nil {
+		return x.Prompt
 	}
 	return ""
 }
@@ -77,10 +241,25 @@ var File_pam_proto protoreflect.FileDescriptor
 
 const file_pam_proto_rawDesc = "" +
 	"\n" +
-	"\tpam.proto\x12\x03pam\"L\n" +
-	"\x11PAMAuthentication\x12\x14\n" +
-	"\x05token\x18\x01 \x01(\tR\x05token\x12!\n" +
-	"\flocal_socket\x18\x02 \x01(\tR\vlocalSocketB\bZ\x06pkg/pbb\x06proto3"
+	"\tpam.proto\x12\x03pam\x1a\vagent.proto\"D\n" +
+	"\x10TokenAuthRequest\x12\x1a\n" +
+	"\busername\x18\x01 \x01(\tR\busername\x12\x14\n" +
+	"\x05token\x18\x02 \x01(\tR\x05token\"W\n" +
+	"\x11TokenAuthResponse\x12\x1e\n" +
+	"\n" +
+	"successful\x18\x01 \x01(\bR\n" +
+	"successful\x12\"\n" +
+	"\x05token\x18\x02 \x01(\v2\f.agent.TokenR\x05token\"A\n" +
+	"\x13InteractiveResponse\x12\x12\n" +
+	"\x04init\x18\x01 \x01(\bR\x04init\x12\x16\n" +
+	"\x06values\x18\x02 \x03(\tR\x06values\"h\n" +
+	"\x14InteractiveChallenge\x12\x1a\n" +
+	"\bfinished\x18\x01 \x01(\bR\bfinished\x12\x1c\n" +
+	"\tcomponent\x18\x02 \x01(\tR\tcomponent\x12\x16\n" +
+	"\x06prompt\x18\x03 \x01(\tR\x06prompt2\x8d\x01\n" +
+	"\x03PAM\x12:\n" +
+	"\tTokenAuth\x12\x15.pam.TokenAuthRequest\x1a\x16.pam.TokenAuthResponse\x12J\n" +
+	"\x0fInteractiveAuth\x12\x18.pam.InteractiveResponse\x1a\x19.pam.InteractiveChallenge(\x010\x01B\bZ\x06pkg/pbb\x06proto3"
 
 var (
 	file_pam_proto_rawDescOnce sync.Once
@@ -94,16 +273,25 @@ func file_pam_proto_rawDescGZIP() []byte {
 	return file_pam_proto_rawDescData
 }
 
-var file_pam_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_pam_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_pam_proto_goTypes = []any{
-	(*PAMAuthentication)(nil), // 0: pam.PAMAuthentication
+	(*TokenAuthRequest)(nil),     // 0: pam.TokenAuthRequest
+	(*TokenAuthResponse)(nil),    // 1: pam.TokenAuthResponse
+	(*InteractiveResponse)(nil),  // 2: pam.InteractiveResponse
+	(*InteractiveChallenge)(nil), // 3: pam.InteractiveChallenge
+	(*Token)(nil),                // 4: agent.Token
 }
 var file_pam_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	4, // 0: pam.TokenAuthResponse.token:type_name -> agent.Token
+	0, // 1: pam.PAM.TokenAuth:input_type -> pam.TokenAuthRequest
+	2, // 2: pam.PAM.InteractiveAuth:input_type -> pam.InteractiveResponse
+	1, // 3: pam.PAM.TokenAuth:output_type -> pam.TokenAuthResponse
+	3, // 4: pam.PAM.InteractiveAuth:output_type -> pam.InteractiveChallenge
+	3, // [3:5] is the sub-list for method output_type
+	1, // [1:3] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_pam_proto_init() }
@@ -111,15 +299,16 @@ func file_pam_proto_init() {
 	if File_pam_proto != nil {
 		return
 	}
+	file_agent_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_pam_proto_rawDesc), len(file_pam_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   4,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_pam_proto_goTypes,
 		DependencyIndexes: file_pam_proto_depIdxs,
